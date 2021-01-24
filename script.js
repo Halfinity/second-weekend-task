@@ -1,4 +1,4 @@
-"use strict"
+window.onload = () => {
 
 let object1 = {
     startedAt: new Date("2021-01-20:10:30"),
@@ -87,47 +87,62 @@ let object1 = {
     object['objectsFinishedPercent'] = Math.floor((object.objectsFinished / object.objectsGiven) * 100); object['finishedAt'] = object.finishedAt.toLocaleTimeString();
     object['startedAt'] = object.startedAt.toLocaleTimeString();
   }
-    let allObjectsArr = ['Started At', 'Finished At', 'Total Time', 'Objects Given','Topic', 'Objects Finished','Objects Finished %'];
 
-    document.write('<table><tr>');
-
-    for (let allObjects of allObjectsArr) {
-    document.write(`<th>${allObjects}</th>`);
-}
-
-for (let object of objectArr) {
-  document.write('<tr>');
-
+    let TheObjectarr = ['Started At', 'Finished At', 'Total Time', 'Objects Given','Topic', 'Objects Finished','Objects Finished %'];
   
-  for (let value in object) {
-    if (value === 'totalTime') {
-      if (object[value] >= 3) {
-        let className = 'lotTime';
-        document.write(`<td class="${className}">${object[value]} hours</td>`);
-      } else if (object[value] >= 2) {
-        let className = 'mediumTime';
-        document.write(`<td class="${className}">${object[value]} hours</td>`);
-      } else if (object[value] < 2) {
-        let className = 'littleTime';
-        document.write(`<td class="${className}">${object[value]} hours</td>`);
-      }
-    } else if (value === 'objectsFinishedPercent') {
-      if (object[value] >= 70) {
-        let className = 'lotWork';
-        document.write(`<td class="${className}">${object[value]}%</td>`);
-      } else if (object[value] >= 50) {
-        let className = 'mediumWork';
-        document.write(`<td class="${className}">${object[value]}%</td>`);
-      } else if (object[value] < 50) {
-        let className = 'littleWork';
-        document.write(`<td class="${className}">${object[value]}%</td>`);
-      }
+  const table = document.createElement('table');
+  const caption = document.createElement('caption');
+  caption.textContent = 'The Objects';
+  table.append(caption);
+  document.body.append(table);
+  
+  const trHeader = document.createElement('tr');
+  table.append(trHeader);
+  
+  for (let object2 of TheObjectarr) {
+    if (object2 === 'Objects Finished %') {
+      const th = document.createElement('th');
+      th.textContent = object2;
+      th.classList.add('long-th');
+      trHeader.append(th);
     } else {
-      document.write(`<td>${object[value]}</td>`);
+      const th = document.createElement('th');
+      th.textContent = object2;
+      trHeader.append(th);
     }
   }
 
-  document.write('</tr>');
+  for (let object of objectArr) {
+    const tr = document.createElement('tr');
+  
+    for (let value in object) {
+      const td = document.createElement('td');
+      td.textContent = object[value];
+
+      if (value === 'totalTime') {
+        td.textContent += ' hours';
+
+        if (object[value] >= 3) {
+          td.classList.add('lotTime');
+        } else if (object[value] >= 2) {
+          td.classList.add('mediumTime');
+        } else if (object[value] < 2) {
+          td.classList.add('littleTime');
+        }
+      } else if (value === 'objectsFinishedPercent') {
+        td.textContent += '%';
+
+        if (object[value] >= 70) {
+          td.classList.add('lotWork');
+        } else if (object[value] >= 50) {
+          td.classList.add('mediumWork');
+        } else if (object[value] < 50) {
+          td.classList.add('littleWork');
+        }
+      }
+  tr.append(td);
 }
 
-document.write('</table>');
+table.append(tr);
+  }
+}
